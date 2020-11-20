@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.drivebase.AgitatorSpinC;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivebase.DrivebaseArcadeDriveStickC;
 import frc.robot.commands.intake.IntakeC;
@@ -21,6 +22,7 @@ import frc.robot.constants.AutoConstantsKRen;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.DriveConstantsKRen;
 import frc.robot.controllerprofiles.OGXboxControllerTriggerDriveProfile;
+import frc.robot.subsystems.AgitatorS;
 import frc.robot.controllerprofiles.Usb0ControllerProfile;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.IntakeS;
@@ -39,9 +41,11 @@ public class RobotContainer {
   private DriveConstants driveConstants;
   //Subsystems
   private DrivebaseS drivebaseS;
+  private AgitatorS agitatorS;
   private IntakeS intakeS;
   //Commands
   private DrivebaseArcadeDriveStickC drivebaseArcadeDriveStickC;
+  private AgitatorSpinC agitatorSpinC;
   private Usb0ControllerProfile driverControllerProfile;
   //Controller Profiles
   private OGXboxControllerTriggerDriveProfile ogXboxControllerTriggerDriveProfile;
@@ -56,8 +60,8 @@ public class RobotContainer {
     createControllerProfiles();
     createControllers();
     createCommands();
-    configureDefaultCommands();
     configureButtonBindings();
+    configureDefaultCommands();
   }
 
   /**
@@ -72,6 +76,7 @@ public class RobotContainer {
    */
   private void createSubsystems() {
     drivebaseS = new DrivebaseS(driveConstants, autoConstants);
+    agitatorS = new AgitatorS();
     intakeS = new IntakeS();
   }
   /**
@@ -79,12 +84,14 @@ public class RobotContainer {
    */
   private void createCommands() {
     drivebaseArcadeDriveStickC = new DrivebaseArcadeDriveStickC(drivebaseS, driverController);
+    agitatorSpinC = new AgitatorSpinC(agitatorS, driverController);
   }
   /**
    * Configures the default Commands for the subsystems.
    */
   private void configureDefaultCommands() {
-    drivebaseS.setDefaultCommand(drivebaseArcadeDriveStickC);
+   // drivebaseS.setDefaultCommand(drivebaseArcadeDriveStickC);
+    agitatorS.setDefaultCommand(agitatorSpinC);
   }
   /**
    * Instantiates the various controller profiles for optional use.
