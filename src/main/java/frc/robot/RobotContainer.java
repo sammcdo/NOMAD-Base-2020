@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.drivebase.AgitatorSpinC;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivebase.DrivebaseArcadeDriveStickC;
+import frc.robot.commands.intake.IntakeC;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.AutoConstantsKRen;
 import frc.robot.constants.DriveConstants;
@@ -23,6 +25,7 @@ import frc.robot.controllerprofiles.OGXboxControllerTriggerDriveProfile;
 import frc.robot.subsystems.AgitatorS;
 import frc.robot.controllerprofiles.Usb0ControllerProfile;
 import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.IntakeS;
 import frc.robot.utility.inputs.ControllerProfile;
 import frc.robot.wrappers.inputdevices.NomadDriverController;
 
@@ -39,6 +42,7 @@ public class RobotContainer {
   //Subsystems
   private DrivebaseS drivebaseS;
   private AgitatorS agitatorS;
+  private IntakeS intakeS;
   //Commands
   private DrivebaseArcadeDriveStickC drivebaseArcadeDriveStickC;
   private AgitatorSpinC agitatorSpinC;
@@ -73,6 +77,7 @@ public class RobotContainer {
   private void createSubsystems() {
     drivebaseS = new DrivebaseS(driveConstants, autoConstants);
     agitatorS = new AgitatorS();
+    intakeS = new IntakeS();
   }
   /**
    * Creates the commands that will be started. By creating them once and reusing them, we should save on garbage collection.
@@ -108,6 +113,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(driverController, 5).whileHeld(new IntakeC(intakeS, driverController));
   }
 
   /**
